@@ -83,7 +83,7 @@ class UaVariant
   UaVariant( OpcUa_Float v );
   UaVariant( OpcUa_Boolean v );
 
-  //UaVariant( OpcUa_Int32v v );
+  UaVariant( OpcUa_Int32v v );
   
   ~UaVariant();
   OpcUaType type() const;
