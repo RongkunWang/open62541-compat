@@ -2,6 +2,7 @@
  *
  *  Created on: 15 Nov,  2015
  *      Author: Piotr Nikiel <piotr@nikiel.info>
+ *		mludwig@cern.ch : added vectors
  *
  *  This file is part of Quasar.
  *
@@ -20,6 +21,7 @@
 
 
 #include <stdint.h>
+#include <vector>
 
 typedef bool     OpcUa_Boolean;
 typedef uint8_t  OpcUa_Byte;
@@ -32,3 +34,17 @@ typedef uint64_t OpcUa_UInt64;
 typedef int64_t  OpcUa_Int64;
 typedef float    OpcUa_Float;
 typedef double   OpcUa_Double;
+
+// arrays = vectors
+typedef std::vector<OpcUa_Boolean>  OpcUa_Booleanv;
+typedef std::vector<OpcUa_Byte>  OpcUa_Bytev;
+typedef std::vector<OpcUa_SByte>  OpcUa_SBytev;
+typedef std::vector<OpcUa_Int16>  OpcUa_Int16v;
+typedef std::vector<OpcUa_UInt16>  OpcUa_UInt16v;
+typedef std::vector<OpcUa_UInt32>  OpcUa_UInt32v;
+typedef std::vector<OpcUa_Int32>  OpcUa_Int32v;
+typedef std::vector<OpcUa_UInt64>  OpcUa_UInt64v;
+typedef std::vector<OpcUa_Int64>  OpcUa_Int64v;
+typedef std::vector<OpcUa_Float>  OpcUa_Floatv;
+typedef std::vector<OpcUa_Double>  OpcUa_Doublev;
+

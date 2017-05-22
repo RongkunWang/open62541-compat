@@ -28,6 +28,8 @@
 #include <uadatetime.h>
 #include <uabytestring.h>
 
+#include <vector>
+
 #ifdef __linux__
 
 #define GCC_VERSION (__GNUC__ * 10000 \
@@ -80,6 +82,8 @@ class UaVariant
   UaVariant( OpcUa_Int32 v );
   UaVariant( OpcUa_Float v );
   UaVariant( OpcUa_Boolean v );
+
+  //UaVariant( OpcUa_Int32v v );
   
   ~UaVariant();
   OpcUaType type() const;
@@ -102,6 +106,32 @@ class UaVariant
 
   void setByteString( const UaByteString& value, bool detach);
 
+  // array setters
+  void setBoolv( OpcUa_Booleanv value );
+  void setBytev( OpcUa_Bytev value );
+  void setSBytev( OpcUa_SBytev value );
+  void setInt16v( OpcUa_Int16v value );
+  void setUInt16v( OpcUa_UInt16v value );
+  void setInt32v( OpcUa_Int32v value );
+  void setUInt32v( OpcUa_UInt32v value );
+  void setInt64v( OpcUa_Int64v value );
+  void setUInt64v( OpcUa_UInt64v value );
+  void setFloatv( OpcUa_Floatv value );
+  void setDoublev( OpcUa_Doublev value );
+
+  // overloaded array setters for null init
+  void setBoolv( bool b );
+  void setBytev( bool b );
+  void setSBytev( bool b );
+  void setInt16v( bool b );
+  void setUInt16v( bool b );
+  void setInt32v( bool b );
+  void setUInt32v( bool b );
+  void setInt64v( bool b );
+  void setUInt64v( bool b );
+  void setFloatv( bool b );
+  void setDoublev( bool b );
+
   void clear () {}; // TODO:
   
   // getters
@@ -116,6 +146,17 @@ class UaVariant
   UaStatus toDouble( OpcUa_Double& value ) const;
   UaStatus toByteString( UaByteString& value) const;
 
+  // array getters
+  UaStatus toBoolv( OpcUa_Booleanv& value ) const;
+  UaStatus toBytev( OpcUa_Bytev& value ) const;
+  UaStatus toInt16v( OpcUa_Int16v& value ) const;
+  UaStatus toInt32v( OpcUa_Int32v& value ) const;
+  UaStatus toUInt32v( OpcUa_UInt32v& value ) const;
+  UaStatus toInt64v( OpcUa_Int64v& value ) const;
+  UaStatus toUInt64v( OpcUa_UInt64v& value ) const;
+  UaStatus toFloatv( OpcUa_Floatv& value ) const;
+  UaStatus toDoublev( OpcUa_Doublev& value ) const;
+
   UaString toString( ) const;
   UaString toFullString() const;
   
@@ -127,9 +168,27 @@ class UaVariant
   UA_Variant * m_impl;
   //! Will assign a supplied newValue to the variant's value. If possible (matching old/new types) a realloc is avoided.
   void reuseOrRealloc( const UA_DataType* dataType, void* newValue );
+
+
+  template<typename T>
+  void reuseOrReallocArray( const UA_DataType* dataType, size_t dim0, T* newValue );
+  // void reuseOrReallocArray( const UA_DataType* dataType, size_t dim0, bool* newValue );
+
   //! Will convert stored value to a simple type, if possible
   template<typename T>
     UaStatus toSimpleType( const UA_DataType* dataType, T* out ) const;
+
+  // can't use templates for *void -> vector conversion, so use more primitive explicit overload
+  UaStatus _doArrayTypesMatch( const UA_DataType* dataType ) const;
+  UaStatus toArrayType( const UA_DataType* dataType, OpcUa_Booleanv *outv ) const;
+  UaStatus toArrayType( const UA_DataType* dataType, OpcUa_Bytev *outv ) const;
+  UaStatus toArrayType( const UA_DataType* dataType, OpcUa_Int16v *outv ) const;
+  UaStatus toArrayType( const UA_DataType* dataType, OpcUa_Int32v *outv ) const;
+  UaStatus toArrayType( const UA_DataType* dataType, OpcUa_Int64v *outv ) const;
+  UaStatus toArrayType( const UA_DataType* dataType, OpcUa_Floatv *outv ) const;
+  UaStatus toArrayType( const UA_DataType* dataType, OpcUa_Doublev *outv ) const;
+
+
 };
 
 
